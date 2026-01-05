@@ -142,7 +142,7 @@ class CovenantService {
     for (let i = 0; i < 64; i++) {
       bytes[i] = Math.floor(Math.random() * 256);
     }
-    return btoa(String.fromCharCode(...bytes));
+    return btoa(String.fromCharCode.apply(null, Array.from(bytes) as any));
   }
 
   /**
@@ -163,7 +163,7 @@ MCowBQYDK2VwAyEA${this.generateRandomBase64(32)}
     for (let i = 0; i < length; i++) {
       bytes[i] = Math.floor(Math.random() * 256);
     }
-    return btoa(String.fromCharCode(...bytes));
+    return btoa(String.fromCharCode.apply(null, Array.from(bytes) as any));
   }
 
   /**
