@@ -1,0 +1,36 @@
+{
+  "name": "aletheia-engine",
+  "version": "1.0.0",
+  "description": "Aletheia Engine - Semantic analysis and validation framework for truth discernment",
+  "main": "core/axioms.py",
+  "type": "module",
+  "scripts": {
+    "test": "pytest tests/",
+    "dev": "python -m core.axioms",
+    "validate": "python -m core.validation_rig",
+    "analyze": "python -m core.lambda_engine"
+  },
+  "keywords": [
+    "aletheia",
+    "truth",
+    "discernment",
+    "validation",
+    "lambda",
+    "axioms",
+    "covenant"
+  ],
+  "author": "Omega Architect",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bekingdomcomejoker-cpu/aletheia-engine.git"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.9"
+  }
+}
