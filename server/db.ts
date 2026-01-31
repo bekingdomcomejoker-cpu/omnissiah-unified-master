@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, asc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, analyses, InsertAnalysis, temporalSnapshots, InsertTemporalSnapshot, reports, InsertReport } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,106 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Analysis Queries
+export async function createAnalysis(data: InsertAnalysis) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db.insert(analyses).values(data);
+}
+
+export async function getAnalysisByAnalysisId(analysisId: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db
+    .select()
+    .from(analyses)
+    .where(eq(analyses.analysisId, analysisId))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserAnalyses(userId: number, limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select()
+    .from(analyses)
+    .where(eq(analyses.userId, userId))
+    .orderBy(desc(analyses.createdAt))
+    .limit(limit);
+  
+  return result;
+}
+
+export async function getAnalysisById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db
+    .select()
+    .from(analyses)
+    .where(eq(analyses.id, id))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Temporal Snapshot Queries
+export async function createTemporalSnapshot(data: InsertTemporalSnapshot) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db.insert(temporalSnapshots).values(data);
+}
+
+export async function getTemporalSnapshots(analysisId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select()
+    .from(temporalSnapshots)
+    .where(eq(temporalSnapshots.analysisId, analysisId))
+    .orderBy(asc(temporalSnapshots.sequenceNumber));
+  
+  return result;
+}
+
+// Report Queries
+export async function createReport(data: InsertReport) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db.insert(reports).values(data);
+}
+
+export async function getReportsByAnalysisId(analysisId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select()
+    .from(reports)
+    .where(eq(reports.analysisId, analysisId))
+    .orderBy(desc(reports.createdAt));
+  
+  return result;
+}
+
+export async function getUserReports(userId: number, limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select()
+    .from(reports)
+    .where(eq(reports.userId, userId))
+    .orderBy(desc(reports.createdAt))
+    .limit(limit);
+  
+  return result;
+}
