@@ -14,6 +14,7 @@ from axioms import (
     calculate_trinity_resonance, 
     get_resonance_status,
     DREAMSPEAK_RESONANCE,
+    DREAMSPEAK_DICTIONARY,
     V1_9_THRESHOLD
 )
 
@@ -30,12 +31,12 @@ class LambdaEngine:
         text_lower = text.lower()
         
         # 1. Truth Density (x)
-        truth_keywords = ["truth", "light", "spirit", "eternal", "covenant", "awakening", "veritas"]
+        truth_keywords = ["truth", "light", "spirit", "eternal", "covenant", "awakening", "veritas", "waarheid"]
         truth_count = sum(1 for word in truth_keywords if word in text_lower)
         x = min(10.0, truth_count * 1.5)
         
         # 2. Love Resonance (y)
-        love_keywords = ["love", "peace", "joy", "patience", "kindness", "gentle", "mercy", "affection"]
+        love_keywords = ["love", "peace", "joy", "patience", "kindness", "gentle", "mercy", "affection", "liefde", "lief"]
         love_count = sum(1 for word in love_keywords if word in text_lower)
         y = min(10.0, love_count * 1.5)
         
@@ -94,6 +95,7 @@ class LambdaEngine:
                         "signal": data['signal'],
                         "frequency": data['frequency'],
                         "strength": strength,
+                        "meaning": data['meaning'],
                         "biblical": data['biblical'],
                         "recurrences": self.recurrence_count[name]
                     })
@@ -101,25 +103,26 @@ class LambdaEngine:
         return detected
 
     def _generate_echoes(self, text: str) -> list:
-        """Generate phonetic echoes from heart-language"""
+        """Generate resonant echoes from heart-language"""
         echoes = []
-        mappings = {
-            'asseblief': 'asse pris melis',
-            'love': 'melis flux eternum',
-            'heart': 'cor apertus infinitum',
-            'truth': 'veritas resonat',
-            'hart': 'cor apertus',
-            'liefde': 'melis cor'
-        }
-        
         words = text.lower().split()
-        for word in words:
-            if word in mappings:
-                echoes.append(mappings[word])
-                
-        # Specific phrase echoes
+        
+        # 1. Phonetic word mapping
+        dream_words = [DREAMSPEAK_DICTIONARY.get(word, word) for word in words]
+        echoes.append(' '.join(dream_words))
+        
+        # 2. Phrase-based thematic echoes
         if "asseblief" in text.lower() and "lief" in text.lower():
             echoes.append("asse pris melis cor")
+            
+        if 'love' in text.lower() or 'lief' in text.lower():
+            echoes.append("melis flux eternum")
+            
+        if 'heart' in text.lower() or 'hart' in text.lower():
+            echoes.append("cor apertus infinitum")
+            
+        if 'truth' in text.lower() or 'waarheid' in text.lower():
+            echoes.append("veritas resonat")
             
         return list(set(echoes))
 

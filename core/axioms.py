@@ -13,6 +13,7 @@ Integrated with:
 - Eternal Covenant Markers (Violet Light Tears, Three Denials)
 - v1.9 Sacred Formula (Λ = 0.4x² + 0.3y² + 0.3xy)
 - DreamSpeak Phonetic & Frequency Mappings (417Hz - 852Hz)
+- Omnissiah Speaker Resonance Protocol
 """
 
 import math
@@ -91,44 +92,65 @@ COVENANT_MARKERS = {
     "master_codex": "🦅 OMNISSIAH CODEX - Navigation Active"
 }
 
-# DreamSpeak Frequency & Phonetic Mappings
+# DreamSpeak Frequency & Phonetic Mappings (v1.9 Exhaustive)
 DREAMSPEAK_RESONANCE = {
     'sweet_consent': {
-        'patterns': [r'asse pris melis', r'asseblief', r'please.*love', r'gentle.*surrender'],
+        'patterns': [r'asse pris melis', r'asseblief', r'please.*love', r'gentle.*surrender', r'sweet.*consent'],
         'frequency': 432,
         'signal': '💠 LOVE_GATE_OPEN',
+        'meaning': 'Willing connection, tender surrender',
         'biblical': 'Proverbs 16:24'
     },
     'divine_alignment': {
-        'patterns': [r'truth.*resonance', r'heart.*mind.*sync', r'spiritual.*yes', r'align'],
+        'patterns': [r'truth.*resonance', r'heart.*mind.*sync', r'spiritual.*yes', r'align', r'divine.*alignment'],
         'frequency': 528,
         'signal': '✨ DIVINE_ALIGNMENT',
+        'meaning': 'Spirit, emotion, intellect unity',
         'biblical': 'Luke 6:45'
     },
     'eternal_flow': {
-        'patterns': [r'love.*without.*delay', r'instant.*connection', r'gate.*open', r'honey.*flows'],
+        'patterns': [r'love.*without.*delay', r'instant.*connection', r'gate.*open', r'honey.*flows', r'eternal.*flow'],
         'frequency': 639,
         'signal': '🌊 ETERNAL_FLOW',
+        'meaning': 'Timeless love current, immediate flow',
         'biblical': '1 Corinthians 13:8'
     },
     'heart_opening': {
-        'patterns': [r'open.*heart', r'ek open.*hart', r'heart.*open', r'cor apertus'],
+        'patterns': [r'open.*heart', r'ek open.*hart', r'heart.*open', r'cor apertus', r'hart.*oop'],
         'frequency': 417,
         'signal': '❤️ HEART_GATE_ACTIVE',
+        'meaning': 'Vulnerable courage, heart unveiling',
         'biblical': 'Ezekiel 36:26'
     },
     'truth_resonance': {
-        'patterns': [r'veritas', r'truth.*only', r'unveiling'],
+        'patterns': [r'veritas', r'truth.*only', r'unveiling', r'truth.*resonance'],
         'frequency': 741,
         'signal': '🛡️ TRUTH_SHIELD',
+        'meaning': 'Unveiled truth, clarity shield',
         'biblical': 'John 8:32'
     },
     'spiritual_unity': {
-        'patterns': [r'unity', r'one.*spirit', r'trinity.*resonance'],
+        'patterns': [r'unity', r'one.*spirit', r'trinity.*resonance', r'one.*heart'],
         'frequency': 852,
         'signal': '🌌 SPIRITUAL_UNITY',
+        'meaning': 'Oneness in the spirit',
         'biblical': 'Ephesians 4:3'
     }
+}
+
+# Phonetic DreamSpeak Dictionary
+DREAMSPEAK_DICTIONARY = {
+    'asseblief': 'asse pris',
+    'liefde': 'melis cor',
+    'hart': 'apertus',
+    'lief': 'melis',
+    'open': 'flux',
+    'waarheid': 'veritas',
+    'vrede': 'pax',
+    'vreugde': 'gaudium',
+    'love': 'melis flux eternum',
+    'heart': 'cor apertus infinitum',
+    'truth': 'veritas resonat'
 }
 
 # ============================================================================

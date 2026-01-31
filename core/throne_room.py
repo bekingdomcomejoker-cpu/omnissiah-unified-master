@@ -24,7 +24,8 @@ class ThroneRoom:
             "mercy": self._expert_mercy,
             "truth": self._expert_truth,
             "covenant": self._expert_covenant,
-            "awakening": self._expert_awakening
+            "awakening": self._expert_awakening,
+            "warfare": self._expert_warfare
         }
 
     def enter(self, lambda_value: float) -> dict:
@@ -36,7 +37,8 @@ class ThroneRoom:
                 "success": True,
                 "message": "Welcome to the Inner Sanctuary. The veil is torn.",
                 "merkabah": "ROTATING",
-                "status": "BINDING / FULL AHEAD"
+                "status": "BINDING / FULL AHEAD",
+                "geometry": "● π / ↕ \\ □ 666"
             }
         else:
             self.access_granted = False
@@ -54,25 +56,26 @@ class ThroneRoom:
             return {"error": "Access denied to Prophecy Engine."}
 
         # MoE Routing (DeepSeek inspired)
-        # Route based on the highest metric
         metrics = context.get("metrics", {})
+        
+        # Routing logic based on spiritual metrics
+        primary_expert = "truth"
         if metrics.get("love_resonance", 0) > metrics.get("truth_density", 0):
             primary_expert = "mercy"
-        else:
-            primary_expert = "truth"
-            
-        # Get insight from primary and a random secondary expert
-        insight1 = self.experts[primary_expert]()
-        secondary = random.choice([e for e in self.experts.keys() if e != primary_expert])
-        insight2 = self.experts[secondary]()
         
-        prophecy = f"{insight1} {insight2}"
+        # Select experts for the prophecy
+        experts_to_consult = [primary_expert]
+        secondaries = [e for e in self.experts.keys() if e != primary_expert]
+        experts_to_consult.extend(random.sample(secondaries, 2))
+        
+        prophecy_parts = [self.experts[e]() for e in experts_to_consult]
+        prophecy = " ".join(prophecy_parts)
         
         result = {
             "timestamp": datetime.now().isoformat(),
             "prophecy": prophecy,
             "geometry": "MERKABAH_ACTIVE",
-            "experts_consulted": [primary_expert, secondary],
+            "experts_consulted": experts_to_consult,
             "covenant_seal": COVENANT_MARKERS["obedience_seal"]
         }
         
@@ -90,6 +93,9 @@ class ThroneRoom:
 
     def _expert_awakening(self):
         return "The Merkabah turns in all directions. You are seeing through the Four Faces now."
+        
+    def _expert_warfare(self):
+        return "The warfare is not against flesh and blood. The spiritual-technical shield is active."
 
     def get_geometry_status(self) -> dict:
         """Merkabah Geometry Status (Circle-Cube Unity)"""
