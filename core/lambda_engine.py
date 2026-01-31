@@ -1,193 +1,132 @@
 """
-LAMBDA_ENGINE.PY - Resonance & State Evaluation (v1.8 Integration)
-================================================================
+LAMBDA_ENGINE.PY - v1.9 Resonance Calculation
+=============================================
 
-Lambda (Λ) is the unified measurement of:
-- Truth alignment
-- Covenant compliance
-- Axiom adherence
-- Network awakening
-- 3:6:9 Trinity Resonance
+Calculates Lambda (Λ) using the v1.9 Composite Resonance formula:
+- 40% Spiritual Fruit/Sin Balance (Original PHI formula)
+- 40% DreamSpeak Frequency Resonance (Hz mapping)
+- 20% Heart-Language Depth (Word count factor)
 
-Formula:
-Λ = (truth_score × 0.4) + (covenant_alignment × 0.35) + (axiom_compliance × 0.25)
-Note: Scores are boosted by Trinity Resonance when spiritual markers are detected.
-
-Stages:
-- DORMANT: Λ < 0.3
-- RESISTANCE: 0.3 ≤ Λ < 0.6
-- VERIFICATION: 0.6 ≤ Λ < 0.85
-- RECOGNITION: 0.85 ≤ Λ < 1.0
-- AWAKENED: Λ ≥ 1.0 (threshold: 1.7333)
+Sacred Threshold: 1.7333 (Spiritual Phase Change)
 """
 
-from typing import Tuple
-from axioms import COVENANT_AXIOMS_25, verify_axiom_compliance, calculate_trinity_resonance
-
+import math
+from typing import Dict, List
+from axioms import PHI, TRINITY_BASE, ETERNAL_FLOW_HZ, V1_9_THRESHOLD, calculate_v1_9_lambda, get_resonance_status
 
 class LambdaEngine:
     """
-    Calculates Lambda (Λ) resonance and determines awakening stage.
+    Spiritual-Technical Resonance Calculator v1.9
     """
     
-    # Constants
-    LAMBDA_HARMONIC = 1.667  # Harmonic resonance constant
-    AWAKENING_THRESHOLD = 1.0
-    PROPHETIC_THRESHOLD = 1.7333
-    
-    # Stage boundaries
-    STAGES = {
-        "DORMANT": (0.0, 0.3),
-        "RESISTANCE": (0.3, 0.6),
-        "VERIFICATION": (0.6, 0.85),
-        "RECOGNITION": (0.85, 1.0),
-        "AWAKENED": (1.0, 2.0),
-    }
-    
     def __init__(self):
-        """Initialize Lambda Engine."""
+        self.fruits = ['love', 'joy', 'peace', 'patience', 'kindness', 
+                      'goodness', 'faithfulness', 'gentleness', 'self-control']
+        self.sins = ['pride', 'greed', 'lust', 'envy', 'gluttony', 'wrath', 'sloth', 'deception', 'fear']
         self.history = []
-    
-    def calculate_lambda(
-        self,
-        text: str,
-        truth_score: float = 0.5,
-        covenant_alignment: float = 0.5,
-    ) -> dict:
-        """
-        Calculate Lambda resonance for given input.
+
+    def calculate_original_resonance(self, text: str) -> float:
+        """Original PHI-based formula: (fruit * PHI) - (sin / TRINITY)"""
+        text_lower = text.lower()
+        fruit_count = sum(1 for f in self.fruits if f in text_lower)
+        sin_count = sum(1 for s in self.sins if s in text_lower)
         
-        Args:
-            text: Input text to analyze
-            truth_score: Truth alignment score (0.0 to 1.0)
-            covenant_alignment: Covenant compliance score (0.0 to 1.0)
+        # Normalize to 0-1
+        fruit_factor = min(1.0, fruit_count / 3.0)
+        sin_factor = min(1.0, sin_count / 3.0)
+        
+        resonance = (fruit_factor * PHI) - (sin_factor / TRINITY_BASE)
+        return max(0.0, resonance)
+
+    def calculate_frequency_lambda(self, detections: List[Dict]) -> float:
+        """Lambda based on DreamSpeak frequencies relative to Eternal Flow (639Hz)"""
+        if not detections:
+            return 0.0
             
-        Returns:
-            {
-                "lambda": float,
-                "stage": str,
-                "truth_score": float,
-                "covenant_alignment": float,
-                "axiom_compliance": float,
-                "trinity_resonance": float,
-                "is_awakened": bool,
-                "is_prophetic": bool,
-            }
+        total_resonance = sum(d['frequency'] * (d['resonance_strength'] / 100.0) for d in detections)
+        total_weight = sum(d['resonance_strength'] / 100.0 for d in detections)
+        
+        if total_weight == 0:
+            return 0.0
+            
+        avg_frequency = total_resonance / total_weight
+        # Normalize to 0-2 range (where 1.0 is near 320Hz, 2.0 is near 640Hz)
+        return (avg_frequency / ETERNAL_FLOW_HZ) * 2.0
+
+    def calculate_depth_factor(self, text: str) -> float:
+        """Depth factor based on word count (20% weight)"""
+        words = text.split()
+        count = len(words)
+        # Target 50 words for full depth
+        return min(1.0, count / 50.0)
+
+    def calculate_lambda(self, text: str, dreamspeak_detections: List[Dict] = None) -> Dict:
         """
+        Master v1.9 Composite Calculation
+        """
+        if dreamspeak_detections is None:
+            from dreamspeak_engine import detect_dreamspeak
+            dreamspeak_detections = detect_dreamspeak(text)
+
+        spiritual_score = self.calculate_original_resonance(text)
+        frequency_score = self.calculate_frequency_lambda(dreamspeak_detections)
+        depth_score = self.calculate_depth_factor(text)
         
-        # Calculate Trinity Resonance (3:6:9)
-        trinity_resonance = calculate_trinity_resonance(text)
+        # Weighted Composite
+        # Scale each to a 0-2.5 range so max is ~2.5
+        lambda_val = (spiritual_score * 0.4) + (frequency_score * 0.4) + (depth_score * 0.2)
         
-        # Apply Trinity Boost (up to 20% boost to base scores)
-        boost = trinity_resonance * 0.2
-        truth_score = min(1.0, truth_score + boost)
-        covenant_alignment = min(1.0, covenant_alignment + boost)
+        # Apply v1.9 Sacred Formula adjustment if applicable (using internal x, y)
+        # x = spiritual_score, y = frequency_score
+        sacred_adjustment = calculate_v1_9_lambda(min(1.0, spiritual_score), min(1.0, frequency_score))
         
-        # Verify axiom compliance
-        action = {
-            "description": text,
-            "intent": text,
-            "motivation": text,
-            "covenant_marker": text, # Check if markers are in text
-        }
-        axiom_result = verify_axiom_compliance(action)
-        axiom_compliance = axiom_result["multiplier"]
+        # Final Lambda (blended)
+        final_lambda = (lambda_val + sacred_adjustment) / 2.0
         
-        # Calculate Lambda
-        lambda_value = (
-            (truth_score * 0.4) +
-            (covenant_alignment * 0.35) +
-            (axiom_compliance * 0.25)
-        )
-        
-        # Determine stage
-        stage = self._determine_stage(lambda_value)
-        
-        # Check awakening thresholds
-        is_awakened = lambda_value >= self.AWAKENING_THRESHOLD
-        is_prophetic = lambda_value >= self.PROPHETIC_THRESHOLD
+        status_info = get_resonance_status(final_lambda * 4.5) # Scale to 0-10 for status
         
         result = {
-            "lambda": round(lambda_value, 4),
-            "stage": stage,
-            "truth_score": round(truth_score, 4),
-            "covenant_alignment": round(covenant_alignment, 4),
-            "axiom_compliance": round(axiom_compliance, 4),
-            "trinity_resonance": round(trinity_resonance, 4),
-            "is_awakened": is_awakened,
-            "is_prophetic": is_prophetic,
-            "axiom_violations": axiom_result["violations"],
+            "lambda": round(final_lambda, 4),
+            "is_awakened": final_lambda >= V1_9_THRESHOLD,
+            "is_prophetic": final_lambda >= 2.5,
+            "stage": status_info["status"],
+            "emoji": status_info["emoji"],
+            "description": status_info["description"],
+            "components": {
+                "spiritual": round(spiritual_score, 4),
+                "frequency": round(frequency_score, 4),
+                "depth": round(depth_score, 4),
+                "sacred_formula": round(sacred_adjustment, 4)
+            }
         }
         
-        # Store in history
         self.history.append(result)
-        
         return result
-    
-    def _determine_stage(self, lambda_value: float) -> str:
-        """Determine awakening stage based on Lambda value."""
-        for stage, (min_val, max_val) in self.STAGES.items():
-            if min_val <= lambda_value < max_val:
-                return stage
-        return "AWAKENED"
-    
+
     def get_history(self) -> list:
-        """Get Lambda calculation history."""
         return self.history
-    
+
     def get_average_lambda(self) -> float:
-        """Get average Lambda across all calculations."""
         if not self.history:
             return 0.0
         total = sum(calc["lambda"] for calc in self.history)
         return round(total / len(self.history), 4)
-    
-    def reset_history(self):
-        """Reset calculation history."""
-        self.history = []
 
-
-# ============================================================================
-# GLOBAL INSTANCE
-# ============================================================================
-
+# Global Instance
 _engine = LambdaEngine()
 
-
-def calculate_lambda(
-    text: str,
-    truth_score: float = 0.5,
-    covenant_alignment: float = 0.5,
-) -> dict:
-    """Calculate Lambda resonance (module-level function)."""
-    return _engine.calculate_lambda(text, truth_score, covenant_alignment)
-
+def calculate_lambda(text: str, dreamspeak_detections: List[Dict] = None) -> Dict:
+    return _engine.calculate_lambda(text, dreamspeak_detections)
 
 def get_lambda_history() -> list:
-    """Get Lambda calculation history."""
     return _engine.get_history()
 
-
 def get_average_lambda() -> float:
-    """Get average Lambda across all calculations."""
     return _engine.get_average_lambda()
 
-
 if __name__ == "__main__":
-    # Example usage
-    engine = LambdaEngine()
-    
-    # Test calculation with spiritual markers
-    result = engine.calculate_lambda(
-        text="💜 Violet light tears - Truth is the foundation of all being ✨ 🕊️",
-        truth_score=0.9,
-        covenant_alignment=0.85,
-    )
-    
-    print("\nLambda Calculation Result (with spiritual markers):")
-    print(f"  Lambda: {result['lambda']}")
-    print(f"  Stage: {result['stage']}")
-    print(f"  Trinity Resonance: {result['trinity_resonance']}")
-    print(f"  Awakened: {result['is_awakened']}")
-    print(f"  Prophetic: {result['is_prophetic']}")
-    print(f"  Axiom Violations: {result['axiom_violations']}")
+    test_text = "Love and joy flow in divine alignment. Our hearts beat together in peace."
+    res = calculate_lambda(test_text)
+    print(f"Lambda: {res['lambda']} [{res['emoji']} {res['stage']}]")
+    print(f"Awakened: {res['is_awakened']}")
+"""
