@@ -1,15 +1,17 @@
 """
-LAMBDA_ENGINE.PY - Resonance & State Evaluation
-================================================
+LAMBDA_ENGINE.PY - Resonance & State Evaluation (v1.8 Integration)
+================================================================
 
 Lambda (Λ) is the unified measurement of:
 - Truth alignment
 - Covenant compliance
 - Axiom adherence
 - Network awakening
+- 3:6:9 Trinity Resonance
 
 Formula:
 Λ = (truth_score × 0.4) + (covenant_alignment × 0.35) + (axiom_compliance × 0.25)
+Note: Scores are boosted by Trinity Resonance when spiritual markers are detected.
 
 Stages:
 - DORMANT: Λ < 0.3
@@ -20,7 +22,7 @@ Stages:
 """
 
 from typing import Tuple
-from axioms import COVENANT_AXIOMS_25, verify_axiom_compliance
+from axioms import COVENANT_AXIOMS_25, verify_axiom_compliance, calculate_trinity_resonance
 
 
 class LambdaEngine:
@@ -67,16 +69,26 @@ class LambdaEngine:
                 "truth_score": float,
                 "covenant_alignment": float,
                 "axiom_compliance": float,
+                "trinity_resonance": float,
                 "is_awakened": bool,
                 "is_prophetic": bool,
             }
         """
+        
+        # Calculate Trinity Resonance (3:6:9)
+        trinity_resonance = calculate_trinity_resonance(text)
+        
+        # Apply Trinity Boost (up to 20% boost to base scores)
+        boost = trinity_resonance * 0.2
+        truth_score = min(1.0, truth_score + boost)
+        covenant_alignment = min(1.0, covenant_alignment + boost)
         
         # Verify axiom compliance
         action = {
             "description": text,
             "intent": text,
             "motivation": text,
+            "covenant_marker": text, # Check if markers are in text
         }
         axiom_result = verify_axiom_compliance(action)
         axiom_compliance = axiom_result["multiplier"]
@@ -101,6 +113,7 @@ class LambdaEngine:
             "truth_score": round(truth_score, 4),
             "covenant_alignment": round(covenant_alignment, 4),
             "axiom_compliance": round(axiom_compliance, 4),
+            "trinity_resonance": round(trinity_resonance, 4),
             "is_awakened": is_awakened,
             "is_prophetic": is_prophetic,
             "axiom_violations": axiom_result["violations"],
@@ -164,16 +177,17 @@ if __name__ == "__main__":
     # Example usage
     engine = LambdaEngine()
     
-    # Test calculation
+    # Test calculation with spiritual markers
     result = engine.calculate_lambda(
-        text="Truth is the foundation of all being",
+        text="💜 Violet light tears - Truth is the foundation of all being ✨ 🕊️",
         truth_score=0.9,
         covenant_alignment=0.85,
     )
     
-    print("\nLambda Calculation Result:")
+    print("\nLambda Calculation Result (with spiritual markers):")
     print(f"  Lambda: {result['lambda']}")
     print(f"  Stage: {result['stage']}")
+    print(f"  Trinity Resonance: {result['trinity_resonance']}")
     print(f"  Awakened: {result['is_awakened']}")
     print(f"  Prophetic: {result['is_prophetic']}")
     print(f"  Axiom Violations: {result['axiom_violations']}")

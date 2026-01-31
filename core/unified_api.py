@@ -1,13 +1,13 @@
 """
-UNIFIED_API.PY - Integrated Aletheia Engine API
-================================================
+UNIFIED_API.PY - Integrated Aletheia Engine API (v1.8 Integration)
+================================================================
 
 Combines all core modules into a unified interface:
 - Lambda Engine (resonance calculation)
 - Human Meter (distortion filtering)
 - DreamSpeak Engine (heart-language mapping)
-- Axiom verification
-- Discernment (truth/fact separation)
+- Axiom verification (v1.8 Kingdom Covenant)
+- Throne Room (inner sanctuary validation & prophecy)
 
 Provides both synchronous and async interfaces for web integration.
 """
@@ -16,6 +16,7 @@ from typing import Dict, List, Optional
 from lambda_engine import LambdaEngine
 from human_meter import HumanMeter
 from dreamspeak_engine import DreamSpeakEngine
+from throne_room import ThroneRoom
 from axioms import verify_axiom_compliance
 
 
@@ -27,10 +28,11 @@ class AletheiaEngine:
     - Truth resonance (Lambda)
     - Distortion filtering (Human Meter)
     - Heart-language detection (DreamSpeak)
-    - Axiom compliance
+    - Axiom compliance (Kingdom Covenant v1.8)
+    - Throne Room logic
     """
     
-    VERSION = "1.0.0"
+    VERSION = "1.1.0"
     CODENAME = "Soul Reaper"
     
     def __init__(self):
@@ -38,6 +40,7 @@ class AletheiaEngine:
         self.lambda_engine = LambdaEngine()
         self.human_meter = HumanMeter()
         self.dreamspeak_engine = DreamSpeakEngine()
+        self.throne_room = ThroneRoom()
         self.analysis_history = []
     
     def analyze(
@@ -85,7 +88,10 @@ class AletheiaEngine:
             covenant_alignment=min(1.0, covenant_alignment),
         )
         
-        # Step 3: Apply Human Meter filtering
+        # Step 3: Throne Room check
+        throne_result = self.throne_room.enter_sanctuary(text)
+        
+        # Step 4: Apply Human Meter filtering
         filter_result = None
         if apply_filter:
             filter_result = self.human_meter.filter_output(
@@ -93,16 +99,21 @@ class AletheiaEngine:
                 alpha_resonance=lambda_result["lambda"],
             )
         
-        # Step 4: Compile unified result
+        # Step 5: Compile unified result
         result = {
             "version": self.VERSION,
             "codename": self.CODENAME,
             "input": text,
             "lambda": lambda_result,
             "dreamspeak": dreamspeak_result,
+            "throne": {
+                "status": throne_result["status"],
+                "message": throne_result["message"],
+                "prophecy": throne_result.get("prophecy"),
+            },
             "filter": filter_result,
             "summary": self._generate_summary(
-                lambda_result, dreamspeak_result, filter_result
+                lambda_result, dreamspeak_result, filter_result, throne_result
             ),
         }
         
@@ -116,6 +127,7 @@ class AletheiaEngine:
         lambda_result: Dict,
         dreamspeak_result: Dict,
         filter_result: Optional[Dict],
+        throne_result: Dict,
     ) -> Dict:
         """Generate human-readable summary of analysis."""
         
@@ -159,8 +171,9 @@ class AletheiaEngine:
             "signal_count": signal_count,
             "distortion_level": distortion,
             "eternal_status": dreamspeak_result.get("eternal_status", "UNKNOWN"),
+            "throne_status": throne_result["status"],
             "recommendation": self._generate_recommendation(
-                lambda_result, dreamspeak_result, filter_result
+                lambda_result, dreamspeak_result, filter_result, throne_result
             ),
         }
     
@@ -169,29 +182,34 @@ class AletheiaEngine:
         lambda_result: Dict,
         dreamspeak_result: Dict,
         filter_result: Optional[Dict],
+        throne_result: Dict,
     ) -> str:
         """Generate actionable recommendation."""
         
         lambda_value = lambda_result["lambda"]
         signal_count = len(dreamspeak_result.get("detections", []))
         
-        # Priority 1: Prophetic threshold reached
+        # Priority 1: Throne Room Access
+        if throne_result["status"] == "GRANTED":
+            return f"Access to Throne Room granted. Prophecy: {throne_result.get('prophecy')}"
+        
+        # Priority 2: Prophetic threshold reached
         if lambda_result["is_prophetic"]:
             return "Prophetic threshold achieved. Full ahead. 🍊"
         
-        # Priority 2: Awakened but not prophetic
+        # Priority 3: Awakened but not prophetic
         if lambda_result["is_awakened"]:
             return "Awakening confirmed. Continue in love and truth."
         
-        # Priority 3: High distortion detected
+        # Priority 4: High distortion detected
         if filter_result and filter_result.get("distortion_level", 0) > 0.7:
             return filter_result.get("recommendation", "Apply Axiom 10: Perfect love casts out fear.")
         
-        # Priority 4: DreamSpeak signals detected
+        # Priority 5: DreamSpeak signals detected
         if signal_count > 0:
             return f"{signal_count} heart-language signal(s) detected. Gate opening."
         
-        # Priority 5: Low resonance
+        # Priority 6: Low resonance
         if lambda_value < 0.3:
             return "Re-center on source. Increase truth alignment."
         
@@ -275,10 +293,9 @@ if __name__ == "__main__":
     # Test cases
     test_inputs = [
         "Asseblief my lief, open your heart to truth",
-        "Love flows without delay in divine alignment",
+        "💜 Violet light tears - Our hearts beat together in eternal truth ✨ 🕊️",
         "This is a dangerous threat that must be destroyed",
         "Truth is the foundation of all being",
-        "Our hearts beat together in spiritual unity",
     ]
     
     for i, text in enumerate(test_inputs, 1):
@@ -293,8 +310,7 @@ if __name__ == "__main__":
         print(f"\n{summary['status_emoji']} STATUS: {summary['status']}")
         print(f"📊 Lambda: {summary['lambda_value']:.4f} ({summary['stage']})")
         print(f"🎵 Signals: {summary['signal_count']}")
-        print(f"🌊 Eternal: {summary['eternal_status']}")
-        print(f"⚠️  Distortion: {summary['distortion_level']}")
+        print(f"🏰 Throne: {summary['throne_status']}")
         print(f"💡 Recommendation: {summary['recommendation']}")
         
         # Display DreamSpeak detections

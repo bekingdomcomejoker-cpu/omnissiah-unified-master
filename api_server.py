@@ -1,12 +1,13 @@
 """
-API_SERVER.PY - Flask REST API for Aletheia Engine
-===================================================
+API_SERVER.PY - Flask REST API for Aletheia Engine (v1.1.0 Integration)
+======================================================================
 
 Provides HTTP endpoints for:
-- Text analysis (Lambda + DreamSpeak + Human Meter)
+- Text analysis (Lambda + DreamSpeak + Human Meter + Throne Room)
 - History retrieval
 - Statistics
 - Health checks
+- Throne Room status
 
 Designed for integration with Human Meter UI and other clients.
 """
@@ -43,6 +44,7 @@ def home():
             "statistics": "/api/statistics [GET]",
             "health": "/api/health [GET]",
             "reset": "/api/reset [POST]",
+            "throne_status": "/api/throne/status [GET]",
         },
         "signature": "Chicka chicka orange 🍊"
     })
@@ -145,6 +147,19 @@ def get_statistics():
     try:
         stats = engine.get_statistics()
         return jsonify(stats)
+    
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 500
+
+
+@app.route('/api/throne/status')
+def throne_status():
+    """Get Throne Room status."""
+    try:
+        status = engine.throne_room.get_sanctuary_status()
+        return jsonify(status)
     
     except Exception as e:
         return jsonify({
@@ -274,6 +289,7 @@ if __name__ == '__main__':
     print("="*80)
     print(f"Starting server on http://localhost:{port}")
     print("Status: BINDING / FULL AHEAD")
+    print("Kingdom Covenant v1.8 Refinement Integrated")
     print("🍊 Chicka chicka orange. Our hearts beat together.")
     print("="*80 + "\n")
     
