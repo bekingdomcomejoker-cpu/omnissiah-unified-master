@@ -1,20 +1,24 @@
 """
-LAMBDA_ENGINE.PY - Core Resonance Calculation (v1.9 Kingdom Covenant)
+LAMBDA_ENGINE.PY - Core Resonance Calculation (v1.95 Kingdom Covenant)
 ====================================================================
 Integrates Truth Density, Love Resonance, and 3:6:9 Trinity Mathematics.
-Includes granular DreamSpeak detection and frequency mapping.
+Includes granular DreamSpeak detection and the Omni-Algorithm (Triple-Layer).
 """
 
 import re
 import math
 from datetime import datetime
 from collections import defaultdict
-from axioms import (
+from .axioms import (
     calculate_v1_9_lambda, 
     calculate_trinity_resonance, 
     get_resonance_status,
+    calculate_resonance_map_score,
     DREAMSPEAK_RESONANCE,
     DREAMSPEAK_DICTIONARY,
+    VOWEL_STATES,
+    OPERATOR_CLASSES,
+    ALPHABET_MAP,
     V1_9_THRESHOLD
 )
 
@@ -23,10 +27,11 @@ class LambdaEngine:
         self.recurrence_count = defaultdict(int)
         self.active_signals = set()
         self.history = []
+        self.version = "1.95"
 
     def assess_text(self, text: str) -> dict:
         """
-        Comprehensive spiritual assessment of text.
+        Comprehensive spiritual assessment of text with v1.95 refinements.
         """
         text_lower = text.lower()
         
@@ -49,27 +54,38 @@ class LambdaEngine:
         # 5. DreamSpeak Detection
         dreamspeak_detections = self._detect_dreamspeak(text)
         
-        # 6. Composite Score
-        # Lambda (40%) + Trinity (40%) + DreamSpeak (20%)
-        dreamspeak_factor = len(dreamspeak_detections) / 6.0
-        composite_score = (lambda_val * 0.4) + (trinity_res * 10 * 0.4) + (dreamspeak_factor * 10 * 0.2)
+        # 6. Omni-Algorithm Analysis (Triple-Layer)
+        omni_results = self._run_omni_algorithm(text)
         
-        # 7. Status & Markers
+        # 7. Composite Score (Refined for v1.95)
+        # Lambda (30%) + Trinity (30%) + Omni (30%) + DreamSpeak (10%)
+        dreamspeak_factor = len(dreamspeak_detections) / 6.0
+        composite_score = (
+            (lambda_val * 0.3) + 
+            (trinity_res * 10 * 0.3) + 
+            (omni_results['total_resonance'] * 10 * 0.3) + 
+            (dreamspeak_factor * 10 * 0.1)
+        )
+        
+        # 8. Status & Markers
         status_info = get_resonance_status(composite_score)
         
         result = {
             "timestamp": datetime.now().isoformat(),
+            "version": self.version,
             "metrics": {
                 "truth_density": round(x, 2),
                 "love_resonance": round(y, 2),
                 "lambda_raw": round(lambda_val, 2),
                 "trinity_resonance": round(trinity_res, 2),
+                "omni_resonance": round(omni_results['total_resonance'], 2),
                 "composite_resonance": round(composite_score, 2)
             },
             "status": status_info["status"],
             "emoji": status_info["emoji"],
             "description": status_info["description"],
             "dreamspeak": dreamspeak_detections,
+            "omni_analysis": omni_results,
             "threshold_passed": composite_score >= V1_9_THRESHOLD,
             "echoes": self._generate_echoes(text)
         }
@@ -101,6 +117,64 @@ class LambdaEngine:
                     })
                     break
         return detected
+
+    def _run_omni_algorithm(self, text: str) -> dict:
+        """
+        Omni(word) = Σ [State(vowel) + Operator(consonant) + ResonanceMap(letter)]
+        """
+        words = re.findall(r'\b\w+\b', text.upper())
+        word_analyses = []
+        total_res = 0.0
+        
+        if not words:
+            return {"total_resonance": 0.0, "word_depth": []}
+
+        for word in words[:5]:  # Analyze first 5 words deeply
+            word_score = 0.0
+            structure = []
+            for char in word:
+                char_res = calculate_resonance_map_score(char)
+                char_type = "UNKNOWN"
+                char_desc = ""
+                
+                if char in VOWEL_STATES:
+                    char_type = "STATE"
+                    char_desc = VOWEL_STATES[char]['state']
+                    word_score += 0.5 + char_res
+                else:
+                    found_cls = False
+                    for cls_name, cls_data in OPERATOR_CLASSES.items():
+                        if char in cls_data['letters']:
+                            char_type = f"OPERATOR({cls_name})"
+                            char_desc = cls_data['function']
+                            word_score += 0.3 + char_res
+                            found_cls = True
+                            break
+                    if not found_cls and char in ALPHABET_MAP:
+                        char_type = "SPECIAL"
+                        char_desc = ALPHABET_MAP[char]['name']
+                        word_score += 0.4 + char_res
+                
+                structure.append({
+                    "char": char, 
+                    "type": char_type, 
+                    "desc": char_desc, 
+                    "resonance": round(char_res, 2)
+                })
+            
+            word_res = word_score / len(word) if word else 0
+            total_res += word_res
+            word_analyses.append({
+                "word": word,
+                "structure": structure,
+                "resonance": round(word_res, 4)
+            })
+            
+        avg_res = total_res / len(words[:5]) if words else 0
+        return {
+            "total_resonance": round(avg_res, 4),
+            "word_depth": word_analyses
+        }
 
     def _generate_echoes(self, text: str) -> list:
         """Generate resonant echoes from heart-language"""
