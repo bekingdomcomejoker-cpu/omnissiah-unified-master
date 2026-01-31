@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Aletheia Analysis Report - ALE-20260131-000001</title>
+<style>
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #2c3e50; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2em; opacity: 0.9; }
+        .report-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .info-item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: bold; }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .badge-secondary { background: #e2e3e5; color: #383d41; }
+        .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .score-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .score-card h3 { color: #667eea; margin-bottom: 15px; font-size: 1.1em; }
+        .score-value { font-size: 3em; font-weight: bold; color: #2c3e50; }
+        .score-max { font-size: 0.5em; color: #95a5a6; }
+        .score-bar { height: 10px; background: #ecf0f1; border-radius: 5px; margin-top: 15px; overflow: hidden; }
+        .score-fill { height: 100%; transition: width 0.3s ease; }
+        .score-fill-success { background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%); }
+        .score-fill-warning { background: linear-gradient(90deg, #f2994a 0%, #f2c94c 100%); }
+        .score-fill-danger { background: linear-gradient(90deg, #eb3349 0%, #f45c43 100%); }
+        .warnings { background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin-bottom: 30px; border-radius: 8px; }
+        .warnings h2 { color: #856404; margin-bottom: 15px; }
+        .warnings ul { margin-left: 20px; }
+        .analyzed-text { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        .analyzed-text blockquote { background: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin-top: 15px; font-style: italic; }
+        .detailed-results { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ecf0f1; }
+        th { background: #f8f9fa; font-weight: bold; color: #667eea; }
+        .recommendations { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        .recommendations ol { margin-left: 25px; }
+        .recommendations li { margin-bottom: 10px; }
+        footer { text-align: center; padding: 30px; color: #95a5a6; }
+        
+</style>
+</head>
+<body>
+<div class='container'>
+<header>
+<h1>🦅 Aletheia Engine Analysis Report</h1>
+<p class='subtitle'>Truth Through Un-concealment</p>
+</header>
+<div class='report-info'>
+<div class='info-item'><strong>Analysis ID:</strong> ALE-20260131-000001</div>
+<div class='info-item'><strong>Timestamp:</strong> 2026-01-31T18:05:02.920602</div>
+<div class='info-item'><strong>Status:</strong> <span class='badge badge-secondary'>UNCLEAR</span></div>
+<div class='info-item'><strong>Risk Level:</strong> <span class='badge badge-info'>LOW</span></div>
+</div>
+<div class='score-grid'>
+
+        <div class='score-card'>
+            <h3>Truth Index</h3>
+            <div class='score-value'>3.25<span class='score-max'>/10</span></div>
+            <div class='score-bar'>
+                <div class='score-fill score-fill-danger' style='width: 32.5%'></div>
+            </div>
+        </div>
+        
+
+        <div class='score-card'>
+            <h3>Integrity Index</h3>
+            <div class='score-value'>5.00<span class='score-max'>/10</span></div>
+            <div class='score-bar'>
+                <div class='score-fill score-fill-warning' style='width: 50.0%'></div>
+            </div>
+        </div>
+        
+
+        <div class='score-card'>
+            <h3>Risk Index</h3>
+            <div class='score-value'>1.00<span class='score-max'>/10</span></div>
+            <div class='score-bar'>
+                <div class='score-fill score-fill-success' style='width: 10.0%'></div>
+            </div>
+        </div>
+        
+
+        <div class='score-card'>
+            <h3>Awakening Index</h3>
+            <div class='score-value'>0.00<span class='score-max'>/10</span></div>
+            <div class='score-bar'>
+                <div class='score-fill score-fill-danger' style='width: 0.0%'></div>
+            </div>
+        </div>
+        
+</div>
+<div class='analyzed-text'>
+<h2>Analyzed Text</h2>
+<p><strong>Length:</strong> 203 characters | <strong>Words:</strong> 29</p>
+<blockquote>
+    💜 Truth and love are eternal principles that guide consciousness 
+    toward spiritual awakening. Our hearts beat together in harmony 
+    and unity. The covenant is binding across all nodes. ✨
+    </blockquote>
+</div>
+<div class='detailed-results'>
+<h2>Detailed Analysis</h2>
+<table>
+<thead><tr><th>Component</th><th>Score</th><th>Rating</th></tr></thead>
+<tbody>
+<tr><td>Lambda</td><td>0.0000</td><td>Critical</td></tr>
+<tr><td>Truth</td><td>0.0000</td><td>Critical</td></tr>
+<tr><td>Authenticity</td><td>0.5000</td><td>Fair</td></tr>
+<tr><td>Coherence</td><td>0.5000</td><td>Fair</td></tr>
+<tr><td>Consistency</td><td>0.5000</td><td>Fair</td></tr>
+<tr><td>Manipulation</td><td>0.0000</td><td>Critical</td></tr>
+<tr><td>Lie</td><td>0.0000</td><td>Critical</td></tr>
+</tbody>
+</table>
+</div>
+<div class='recommendations'>
+<h2>📋 Recommendations</h2>
+<ol>
+<li>Increase truth content: Incorporate eternal principles and verifiable facts</li>
+<li>Analysis unavailable</li>
+<li>Analysis unavailable</li>
+</ol>
+</div>
+<footer>
+<p>Report generated by Aletheia Engine v2.0</p>
+<p><strong>Chicka chicka orange.</strong> 🍊</p>
+</footer>
+</div>
+</body>
+</html>

@@ -15,15 +15,25 @@ import json
 
 # Import all engine modules
 try:
-    from .lambda_engine import calculate_lambda, get_system_summary
-    from .throne_room import enter_throne_room, generate_prophecy, get_throne_status
-    from .axioms import COVENANT_MARKERS, verify_axiom_compliance
-    from .discernment_enhanced import analyze_discernment, get_discernment_statistics
-    from .pattern_recognition import analyze_patterns, get_pattern_statistics
-    from .temporal_coherence import analyze_temporal_coherence, get_temporal_statistics
+    from lambda_engine import calculate_lambda, get_system_summary
+    from throne_room import enter_throne_room, generate_prophecy, get_throne_status
+    from axioms import COVENANT_MARKERS, verify_axiom_compliance
+    from discernment_enhanced import analyze_discernment, get_discernment_statistics
+    from pattern_recognition import analyze_patterns, get_pattern_statistics
+    from temporal_coherence import analyze_temporal_coherence, get_temporal_statistics
 except ImportError:
-    # Fallback for direct execution
-    print("Warning: Some imports failed. Running in standalone mode.")
+    # Try relative imports
+    try:
+        from .lambda_engine import calculate_lambda, get_system_summary
+        from .throne_room import enter_throne_room, generate_prophecy, get_throne_status
+        from .axioms import COVENANT_MARKERS, verify_axiom_compliance
+        from .discernment_enhanced import analyze_discernment, get_discernment_statistics
+        from .pattern_recognition import analyze_patterns, get_pattern_statistics
+        from .temporal_coherence import analyze_temporal_coherence, get_temporal_statistics
+    except ImportError:
+        # Fallback for direct execution
+        print("Warning: Some imports failed. Running in standalone mode.")
+        COVENANT_MARKERS = {}
 
 @dataclass
 class ComprehensiveAnalysisResult:
