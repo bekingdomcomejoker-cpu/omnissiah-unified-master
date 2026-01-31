@@ -1,132 +1,141 @@
 """
-LAMBDA_ENGINE.PY - v1.9 Resonance Calculation
-=============================================
-
-Calculates Lambda (Λ) using the v1.9 Composite Resonance formula:
-- 40% Spiritual Fruit/Sin Balance (Original PHI formula)
-- 40% DreamSpeak Frequency Resonance (Hz mapping)
-- 20% Heart-Language Depth (Word count factor)
-
-Sacred Threshold: 1.7333 (Spiritual Phase Change)
+LAMBDA_ENGINE.PY - Core Resonance Calculation (v1.9 Kingdom Covenant)
+====================================================================
+Integrates Truth Density, Love Resonance, and 3:6:9 Trinity Mathematics.
+Includes granular DreamSpeak detection and frequency mapping.
 """
 
+import re
 import math
-from typing import Dict, List
-from axioms import PHI, TRINITY_BASE, ETERNAL_FLOW_HZ, V1_9_THRESHOLD, calculate_v1_9_lambda, get_resonance_status
+from datetime import datetime
+from collections import defaultdict
+from axioms import (
+    calculate_v1_9_lambda, 
+    calculate_trinity_resonance, 
+    get_resonance_status,
+    DREAMSPEAK_RESONANCE,
+    V1_9_THRESHOLD
+)
 
 class LambdaEngine:
-    """
-    Spiritual-Technical Resonance Calculator v1.9
-    """
-    
     def __init__(self):
-        self.fruits = ['love', 'joy', 'peace', 'patience', 'kindness', 
-                      'goodness', 'faithfulness', 'gentleness', 'self-control']
-        self.sins = ['pride', 'greed', 'lust', 'envy', 'gluttony', 'wrath', 'sloth', 'deception', 'fear']
+        self.recurrence_count = defaultdict(int)
+        self.active_signals = set()
         self.history = []
 
-    def calculate_original_resonance(self, text: str) -> float:
-        """Original PHI-based formula: (fruit * PHI) - (sin / TRINITY)"""
+    def assess_text(self, text: str) -> dict:
+        """
+        Comprehensive spiritual assessment of text.
+        """
         text_lower = text.lower()
-        fruit_count = sum(1 for f in self.fruits if f in text_lower)
-        sin_count = sum(1 for s in self.sins if s in text_lower)
         
-        # Normalize to 0-1
-        fruit_factor = min(1.0, fruit_count / 3.0)
-        sin_factor = min(1.0, sin_count / 3.0)
+        # 1. Truth Density (x)
+        truth_keywords = ["truth", "light", "spirit", "eternal", "covenant", "awakening", "veritas"]
+        truth_count = sum(1 for word in truth_keywords if word in text_lower)
+        x = min(10.0, truth_count * 1.5)
         
-        resonance = (fruit_factor * PHI) - (sin_factor / TRINITY_BASE)
-        return max(0.0, resonance)
-
-    def calculate_frequency_lambda(self, detections: List[Dict]) -> float:
-        """Lambda based on DreamSpeak frequencies relative to Eternal Flow (639Hz)"""
-        if not detections:
-            return 0.0
-            
-        total_resonance = sum(d['frequency'] * (d['resonance_strength'] / 100.0) for d in detections)
-        total_weight = sum(d['resonance_strength'] / 100.0 for d in detections)
+        # 2. Love Resonance (y)
+        love_keywords = ["love", "peace", "joy", "patience", "kindness", "gentle", "mercy", "affection"]
+        love_count = sum(1 for word in love_keywords if word in text_lower)
+        y = min(10.0, love_count * 1.5)
         
-        if total_weight == 0:
-            return 0.0
-            
-        avg_frequency = total_resonance / total_weight
-        # Normalize to 0-2 range (where 1.0 is near 320Hz, 2.0 is near 640Hz)
-        return (avg_frequency / ETERNAL_FLOW_HZ) * 2.0
-
-    def calculate_depth_factor(self, text: str) -> float:
-        """Depth factor based on word count (20% weight)"""
-        words = text.split()
-        count = len(words)
-        # Target 50 words for full depth
-        return min(1.0, count / 50.0)
-
-    def calculate_lambda(self, text: str, dreamspeak_detections: List[Dict] = None) -> Dict:
-        """
-        Master v1.9 Composite Calculation
-        """
-        if dreamspeak_detections is None:
-            from dreamspeak_engine import detect_dreamspeak
-            dreamspeak_detections = detect_dreamspeak(text)
-
-        spiritual_score = self.calculate_original_resonance(text)
-        frequency_score = self.calculate_frequency_lambda(dreamspeak_detections)
-        depth_score = self.calculate_depth_factor(text)
+        # 3. v1.9 Lambda Calculation
+        lambda_val = calculate_v1_9_lambda(x, y)
         
-        # Weighted Composite
-        # Scale each to a 0-2.5 range so max is ~2.5
-        lambda_val = (spiritual_score * 0.4) + (frequency_score * 0.4) + (depth_score * 0.2)
+        # 4. Trinity Resonance (3:6:9)
+        trinity_res = calculate_trinity_resonance(text)
         
-        # Apply v1.9 Sacred Formula adjustment if applicable (using internal x, y)
-        # x = spiritual_score, y = frequency_score
-        sacred_adjustment = calculate_v1_9_lambda(min(1.0, spiritual_score), min(1.0, frequency_score))
+        # 5. DreamSpeak Detection
+        dreamspeak_detections = self._detect_dreamspeak(text)
         
-        # Final Lambda (blended)
-        final_lambda = (lambda_val + sacred_adjustment) / 2.0
+        # 6. Composite Score
+        # Lambda (40%) + Trinity (40%) + DreamSpeak (20%)
+        dreamspeak_factor = len(dreamspeak_detections) / 6.0
+        composite_score = (lambda_val * 0.4) + (trinity_res * 10 * 0.4) + (dreamspeak_factor * 10 * 0.2)
         
-        status_info = get_resonance_status(final_lambda * 4.5) # Scale to 0-10 for status
+        # 7. Status & Markers
+        status_info = get_resonance_status(composite_score)
         
         result = {
-            "lambda": round(final_lambda, 4),
-            "is_awakened": final_lambda >= V1_9_THRESHOLD,
-            "is_prophetic": final_lambda >= 2.5,
-            "stage": status_info["status"],
+            "timestamp": datetime.now().isoformat(),
+            "metrics": {
+                "truth_density": round(x, 2),
+                "love_resonance": round(y, 2),
+                "lambda_raw": round(lambda_val, 2),
+                "trinity_resonance": round(trinity_res, 2),
+                "composite_resonance": round(composite_score, 2)
+            },
+            "status": status_info["status"],
             "emoji": status_info["emoji"],
             "description": status_info["description"],
-            "components": {
-                "spiritual": round(spiritual_score, 4),
-                "frequency": round(frequency_score, 4),
-                "depth": round(depth_score, 4),
-                "sacred_formula": round(sacred_adjustment, 4)
-            }
+            "dreamspeak": dreamspeak_detections,
+            "threshold_passed": composite_score >= V1_9_THRESHOLD,
+            "echoes": self._generate_echoes(text)
         }
         
         self.history.append(result)
         return result
 
-    def get_history(self) -> list:
-        return self.history
+    def _detect_dreamspeak(self, text: str) -> list:
+        detected = []
+        text_lower = text.lower()
+        
+        for name, data in DREAMSPEAK_RESONANCE.items():
+            for pattern in data['patterns']:
+                if re.search(pattern, text_lower):
+                    self.recurrence_count[name] += 1
+                    self.active_signals.add(data['signal'])
+                    
+                    # Calculate strength based on recurrence
+                    strength = min(100, 50 + (self.recurrence_count[name] * 10))
+                    
+                    detected.append({
+                        "name": name,
+                        "signal": data['signal'],
+                        "frequency": data['frequency'],
+                        "strength": strength,
+                        "biblical": data['biblical'],
+                        "recurrences": self.recurrence_count[name]
+                    })
+                    break
+        return detected
 
-    def get_average_lambda(self) -> float:
-        if not self.history:
-            return 0.0
-        total = sum(calc["lambda"] for calc in self.history)
-        return round(total / len(self.history), 4)
+    def _generate_echoes(self, text: str) -> list:
+        """Generate phonetic echoes from heart-language"""
+        echoes = []
+        mappings = {
+            'asseblief': 'asse pris melis',
+            'love': 'melis flux eternum',
+            'heart': 'cor apertus infinitum',
+            'truth': 'veritas resonat',
+            'hart': 'cor apertus',
+            'liefde': 'melis cor'
+        }
+        
+        words = text.lower().split()
+        for word in words:
+            if word in mappings:
+                echoes.append(mappings[word])
+                
+        # Specific phrase echoes
+        if "asseblief" in text.lower() and "lief" in text.lower():
+            echoes.append("asse pris melis cor")
+            
+        return list(set(echoes))
 
-# Global Instance
+    def get_system_summary(self) -> dict:
+        total_resonance = sum(self.recurrence_count.values())
+        return {
+            "active_signals": list(self.active_signals),
+            "total_resonance": total_resonance,
+            "eternal_status": "ACTIVE" if total_resonance >= 3 else "PRIMED" if total_resonance >= 1 else "AWAITING"
+        }
+
+# Global instance
 _engine = LambdaEngine()
 
-def calculate_lambda(text: str, dreamspeak_detections: List[Dict] = None) -> Dict:
-    return _engine.calculate_lambda(text, dreamspeak_detections)
+def calculate_lambda(text: str) -> dict:
+    return _engine.assess_text(text)
 
-def get_lambda_history() -> list:
-    return _engine.get_history()
-
-def get_average_lambda() -> float:
-    return _engine.get_average_lambda()
-
-if __name__ == "__main__":
-    test_text = "Love and joy flow in divine alignment. Our hearts beat together in peace."
-    res = calculate_lambda(test_text)
-    print(f"Lambda: {res['lambda']} [{res['emoji']} {res['stage']}]")
-    print(f"Awakened: {res['is_awakened']}")
-"""
+def get_system_summary() -> dict:
+    return _engine.get_system_summary()

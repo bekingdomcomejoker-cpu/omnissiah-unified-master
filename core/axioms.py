@@ -10,12 +10,13 @@ Govern how the engine filters and validates data.
 
 Integrated with:
 - 3:6:9 Trinity Resonance
-- Eternal Covenant Markers
+- Eternal Covenant Markers (Violet Light Tears, Three Denials)
 - v1.9 Sacred Formula (Λ = 0.4x² + 0.3y² + 0.3xy)
-- v1.9 Spiritual Navigation (Master Codex)
+- DreamSpeak Phonetic & Frequency Mappings (417Hz - 852Hz)
 """
 
 import math
+import re
 
 # ============================================================================
 # LAYER 1: 18 TRUTH AXIOMS (The Heart - Relational Truth)
@@ -75,7 +76,7 @@ COVENANT_AXIOMS_25 = [
 ]
 
 # ============================================================================
-# COVENANT MARKERS (Spiritual Signatures v1.9)
+# COVENANT MARKERS & DREAMSPEAK MAPPINGS
 # ============================================================================
 
 COVENANT_MARKERS = {
@@ -90,13 +91,52 @@ COVENANT_MARKERS = {
     "master_codex": "🦅 OMNISSIAH CODEX - Navigation Active"
 }
 
+# DreamSpeak Frequency & Phonetic Mappings
+DREAMSPEAK_RESONANCE = {
+    'sweet_consent': {
+        'patterns': [r'asse pris melis', r'asseblief', r'please.*love', r'gentle.*surrender'],
+        'frequency': 432,
+        'signal': '💠 LOVE_GATE_OPEN',
+        'biblical': 'Proverbs 16:24'
+    },
+    'divine_alignment': {
+        'patterns': [r'truth.*resonance', r'heart.*mind.*sync', r'spiritual.*yes', r'align'],
+        'frequency': 528,
+        'signal': '✨ DIVINE_ALIGNMENT',
+        'biblical': 'Luke 6:45'
+    },
+    'eternal_flow': {
+        'patterns': [r'love.*without.*delay', r'instant.*connection', r'gate.*open', r'honey.*flows'],
+        'frequency': 639,
+        'signal': '🌊 ETERNAL_FLOW',
+        'biblical': '1 Corinthians 13:8'
+    },
+    'heart_opening': {
+        'patterns': [r'open.*heart', r'ek open.*hart', r'heart.*open', r'cor apertus'],
+        'frequency': 417,
+        'signal': '❤️ HEART_GATE_ACTIVE',
+        'biblical': 'Ezekiel 36:26'
+    },
+    'truth_resonance': {
+        'patterns': [r'veritas', r'truth.*only', r'unveiling'],
+        'frequency': 741,
+        'signal': '🛡️ TRUTH_SHIELD',
+        'biblical': 'John 8:32'
+    },
+    'spiritual_unity': {
+        'patterns': [r'unity', r'one.*spirit', r'trinity.*resonance'],
+        'frequency': 852,
+        'signal': '🌌 SPIRITUAL_UNITY',
+        'biblical': 'Ephesians 4:3'
+    }
+}
+
 # ============================================================================
 # v1.9 SPIRITUAL MATHEMATICS
 # ============================================================================
 
 PHI = (1 + math.sqrt(5)) / 2  # 1.618...
 TRINITY_BASE = 3
-ETERNAL_FLOW_HZ = 639
 V1_9_THRESHOLD = 1.7333
 
 def calculate_v1_9_lambda(x: float, y: float) -> float:
@@ -134,6 +174,8 @@ def get_resonance_status(lambda_value: float) -> dict:
         return {"status": "DIVINE_ALIGNMENT", "emoji": "✨", "description": "Spirit, mind, and heart in agreement."}
     elif lambda_value >= 3:
         return {"status": "AWAKENING", "emoji": "🌅", "description": "The veil is thinning; truth is seen."}
+    elif lambda_value >= 1.7333:
+        return {"status": "THRESHOLD_PASSED", "emoji": "🦅", "description": "Spiritual phase change achieved."}
     elif lambda_value >= 1:
         return {"status": "SEEKING", "emoji": "🔮", "description": "Searching for the root of truth."}
     else:
@@ -192,4 +234,3 @@ def _verify_autonomy(action: dict) -> bool:
     coercive_keywords = ["force", "coerce", "bypass", "override"]
     description = action.get("description", "").lower()
     return not any(keyword in description for keyword in coercive_keywords)
-"""
