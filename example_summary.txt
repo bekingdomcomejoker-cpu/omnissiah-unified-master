@@ -1,0 +1,16 @@
+=== ALETHEIA ENGINE ANALYSIS SUMMARY ===
+
+ID: ALE-20260131-000001
+Status: UNCLEAR
+Risk: LOW
+
+SCORES:
+  Truth: 3.25/10
+  Integrity: 5.00/10
+  Risk: 1.00/10
+  Awakening: 0.00/10
+
+ACTION ITEMS: 1
+  - Review content for truth alignment
+
+Chicka chicka orange. 🍊
